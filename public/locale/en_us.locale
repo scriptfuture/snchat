@@ -1,0 +1,66 @@
+{
+    "text": {
+        "user": "User",
+        "messagesLogin": "To view earlier messages, you must log in.",
+		"lastMessage": "Last message",
+		"user2": "user",
+
+		"signIn": "Sign in",
+		"toWriteMessage": " to write a message ",
+		"inTheGuestbook": "in the guestbook",
+		"login": "Login",
+		"password": "Password",
+		"repeatPassword": "Repeat password",
+		"changePassword": "Change Password",
+		
+		"registrationSuccessful": "Registration successful!",
+		"settingsSuccess":"Settings saved successfully",
+		"morePosts": "More posts"
+    },
+	"link": {
+	    "messages": "Messages",
+	    "signup": "Signup",
+	    "login": "Login",
+	    "settings": "Settings",
+	    "exit": "Exit"
+	},
+    "button": {
+        "update": "Update",
+        "send": "Send",
+        "save": "Save",
+        "login": "login"
+    },
+    "error": {
+        "400_BadRequest": "Bad request!",
+        "403_Forbidden": "Access denied!",
+        "500_InternalServerError": "Service unavailable!",
+        "503_ServiceUnavailable": "Service unavailable!",
+        "ConnectionError": "Connection error!",
+        "ErrorReadingData": "Error reading data!",
+		
+		"err0": "Query is empty!",
+		"err1": "The session has expired!",
+		"err3": "Access denied!",
+
+		"err10": "There are incomplete fields!",
+		"err11": "Not valid ID!",
+		
+		"err20": "User already exists!",
+		"err21": "Password is incorrect!",
+		"err22": "Username is incorrect!",
+		"err23": "User is not exists!",
+		"err24": "Error log out!",
+		
+		"err30": "Message is not exists!",
+
+	    "err1000": "Field \"Login\"empty!",
+	    "err1001": "Field \"Password\"empty!",
+	    "err1002": "Field \"Confirm password\"empty!",
+		"err1003": "Field \"Login\" contains invalid characters!",
+		"err1004": "Passwords do not match!",
+		
+	    "err1010": "Field \"Text\"empty!"
+		
+	}
+	
+}
