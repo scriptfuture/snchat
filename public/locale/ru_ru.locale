@@ -15,13 +15,15 @@
 		
 		"registrationSuccessful": "Регистрация прошла успешно!",
 		"settingsSuccess": "Настройки успешно сохранены!",
-		"morePosts": "Ещё соообщений"
+		"morePosts": "Ещё соообщений",
+		"WriteAReply": "Текст сообшения..."
 		
     },
 	"link": {
 	    "messages": "Сообщения",
 	    "signup": "Регистрация",
 	    "login": "Вход в систему",
+	    "chat": "Чат",
 	    "settings": "Настройки",
 	    "exit": "Выход"
 	},

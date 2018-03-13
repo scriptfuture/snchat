@@ -15,12 +15,14 @@
 		
 		"registrationSuccessful": "Registration successful!",
 		"settingsSuccess":"Settings saved successfully",
-		"morePosts": "More posts"
+		"morePosts": "More posts",
+		"WriteAReply": "Write a reply..."
     },
 	"link": {
 	    "messages": "Messages",
 	    "signup": "Signup",
 	    "login": "Login",
+	    "chat": "Chat",
 	    "settings": "Settings",
 	    "exit": "Exit"
 	},
