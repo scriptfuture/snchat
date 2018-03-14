@@ -19,6 +19,11 @@ var Helpers = (function(self, FConfig) {
         Handlebars.registerHelper('formatdate', function(text) {
             return self.formatDate(text);
         });
+		
+        // короткий формат даты и времени
+        Handlebars.registerHelper('formatdatelite', function(text) {
+            return self.formatDateLite(text);
+        });
     }; // end fun
     //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
     // Подготовка данных перед выводом
@@ -56,6 +61,28 @@ var Helpers = (function(self, FConfig) {
 			if (min_ < 10) zerom = '0';
 			if (sec_ < 10) zeros = '0';
 			return day_ + ' ' + date_ + ' ' + month_ + ' ' + year_ + ' г. ' + hours_ + ':' + zerom + min_ + ':' + zeros + sec_;
+		
+		} else {
+			return self.formatDateNum(dt);
+		} // end if
+    }; // end fun
+    //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+    //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+    self.formatDateLite = function(dt) {
+		
+		if(self.That.getLanguage() === 'ru_ru') {
+		
+			var today = new Date(dt);
+			var month_of_year = ["Января", "Февраля", "Марта", "Апреля", "Мая", "Июня", "Июля", "Августа", "Сентября", "Октября", "Ноября", "Декабря"];
+			var date_ = today.getDate();
+			var month_ = month_of_year[today.getMonth()];
+			var year_ = today.getFullYear();
+			var hours_ = today.getHours();
+			var min_ = today.getMinutes();
+			var sec_ = today.getSeconds();
+			var zerom = '';
+			if (min_ < 10) zerom = '0';
+			return date_ + ' ' + month_ + ' ' + year_ + ' г. ' + hours_ + ':' + zerom + min_ ;
 		
 		} else {
 			return self.formatDateNum(dt);
