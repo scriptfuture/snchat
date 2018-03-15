@@ -118,38 +118,9 @@ var Reactions = (function(self, paramsReact) {
     //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 	// прокрутка вниз
     self._scrollBottom = function(messages) {
-		
-		// Космический html-хак, но по другому скрол не работает
-	    var hChar = 20; // высота сивола + отступ снизу
-	    var qChar = 35; // количество символов в строке
-		
-		// расчёт высоты блока  с сообщениями (примерный)
-		var stCounter = 1, chCounter = 0, boxHeight = 0, mText = "", rn = 0;
-		for(var i in messages) {
-			if(messages[i].text !== '') {
-				mText = messages[i].login + " " + messages[i].text;
-			    for(var n in mText) {
-					if(/\n|\r|\n\r/.test(mText[n])) { chCounter = qChar; }
-				    if(chCounter >= qChar) { chCounter = 0; stCounter++;  } else { chCounter++; }
-			    } // end for
-			} // end if
-			
-			boxHeight += stCounter * hChar;
-			
-			chCounter = 0;
-			stCounter = 1;
-		} // end for
-		
-	    var elm = $("div[data-scroll]");
-	
-	    elm.css('overflow','hidden');
-	    elm.animate({ scrollTop: boxHeight+ "px" }, 1, function() {
-			
-            // Animation complete.
-	        elm.css('overflow','scroll');
-		    elm.css('overflow-x','hidden');
-        });
 
+	    var elm = $("div[data-scroll]").get(0);		
+		elm.scrollTop=elm.scrollHeight;
 
     }; // end fun
     //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
