@@ -1,0 +1,127 @@
+
+<!--- login ----------------------------------------------------------------------------------------------------------->
+<script id="login" type="text/x-handlebars-template">
+
+    <main role="main" class="container">	
+	   <form id="login-send" class="form-signin">
+
+	   
+		  <div class="text-center mb-4">
+			<h1 class="h3 mb-3 font-weight-normal">{{lang.link.login}}</h1>
+		  </div>
+		  
+		  <div class="alert alert-danger hide" role="alert" data-form-error></div>
+		  <div class="alert alert-info hide" role="alert" data-form-info></div>
+
+		  <div class="form-label-group">
+			<input type="text" name="login" id="inputLogin" class="form-control" placeholder="{{lang.text.login}}" required autofocus>
+			<label for="inputEmail"><br /></label>
+		  </div>
+
+		  <div class="form-label-group">
+			<input type="password" name="password" id="inputPassword" class="form-control" placeholder="{{lang.text.password}}" required>
+			<label for="inputPassword"><br /></label>
+		  </div>
+
+
+		  <button class="btn btn-lg btn-primary btn-block" name="submit" type="button" value="{{lang.button.login}}" data-form="login-send">{{lang.button.login}}</button>
+		  <p class="mt-5 mb-3 text-muted text-center">&copy; 2014-2018</p>
+		</form>
+	</div>
+ 
+	
+</script>
+<!--- \login ----------------------------------------------------------------------------------------------------------->
+<!--- signup ----------------------------------------------------------------------------------------------------------->
+<script id="signup" type="text/x-handlebars-template">
+
+  <div class="container">
+    <div class="container-box">
+	    <img src="/img/ajax-loader.gif" class="loader" data-loader>
+		<h1>{{lang.text.widgetName}}</h1>
+		<div class="menu">
+			<a href="#" data-link="messages-pub">{{lang.link.messages}}</a> &nbsp;|&nbsp; 
+		     <a href="#" data-link="login">{{lang.link.login}}</a>
+		</div>
+		<div class="content">
+		   <div class="content-header">
+		       <h2><b>&nbsp; {{lang.link.signup}}</b></h2>
+		   </div>
+		   <div class="form-content-info" data-form-info></div>
+		   <div class="form-content-error" data-form-error></div>
+		   <div class="form-block">
+                <form id="signup-send">
+                   <div class="form-line">
+				       {{lang.text.login}}:<br>
+				       <input type="text" name="login" size="50">
+				   </div>
+                   <div class="form-line">
+				       {{lang.text.password}}:<br>
+                       <input type="password" name="password" size="50">
+				   </div>
+                   <div class="form-line">
+				       {{lang.text.repeatPassword}}:<br>
+                       <input type="password" name="repassword" size="50">
+				   </div>
+                   <div class="form-line">
+                       <input name="Send" type="button" value="{{lang.button.send}}" data-form="signup-send"> 
+                   </div>				   
+              </form>
+
+		   </div>
+		 
+		</div>
+		
+    </div> 
+
+    </div>
+  </div>
+
+</script>
+<!--- \signup ---------------------------------------------------------------------------------------------------------->
+<!--- settings ----------------------------------------------------------------------------------------------------------->
+<script id="settings" type="text/x-handlebars-template">
+
+ <div class="container">
+    <div class="container-box">
+	    <img src="/img/ajax-loader.gif" class="loader" data-loader>
+		<h1>{{lang.text.widgetName}}</h1>
+		<div class="menu">
+			<a href="#" data-link="messages">{{lang.link.messages}}</a> &nbsp;|&nbsp; 
+			<a href="#" data-link="exit">{{lang.link.exit}}</a>
+		</div>
+		<div class="content">
+		   <div class="content-header">
+		       <h2><b>&nbsp; {{lang.link.settings}}</b></h2>
+		   </div>
+		   <div class="form-content-info" data-form-info></div>
+		   <div class="form-content-error" data-form-error></div>
+		   <div class="form-block">
+                <form id="settings-send">
+				   <div class="form-subtitle">{{lang.text.changePassword}}</div>
+                   <div class="form-line">
+				       {{lang.text.password}}:<br>
+                       <input type="password" name="password" size="50">
+				   </div>
+                   <div class="form-line">
+				       {{lang.text.repeatPassword}}:<br>
+                       <input type="password" name="repassword" size="50">
+				   </div>
+                   <div class="form-line">
+                       <input name="Submit" type=button value="{{lang.button.save}}" data-form="settings-send"> 
+                   </div>				   
+              </form>
+
+		   </div>
+		 
+		</div>
+		
+    </div> 
+
+    </div>
+  </div>
+
+</script>
+<!--- \settings ---------------------------------------------------------------------------------------------------------->
+
+

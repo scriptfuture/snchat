@@ -143,7 +143,7 @@ var Router = (function(self, paramsReact) {
 
 			// скрываем ссылку "Ещё сообщений", если сообщений больше нет
 			if(!data.histlink) {
-                $("div[data-hist-link]").hide();	
+                $("div[data-hist-link] a").hide();	
 			}  // end if
 
 			// каждые n секунд поиск на сервере новых сообщений
