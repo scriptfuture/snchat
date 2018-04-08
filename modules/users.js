@@ -99,6 +99,9 @@ exports.exit = function(req, res){
 }; // end fun
 
 exports.cleanSessions = function(req, res){
+    
+     // удаляем сессию   
+     req.session.destroy();
 	
      access.cleanSessions(function(error){
          if(error) throw error;

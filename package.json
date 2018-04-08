@@ -4,5 +4,8 @@
     "mongoose": "*",
     "body-parser": "*",
     "express": "*"
+  },
+  "dependencies": {
+    "socket.io": "^2.1.0"
   }
 }

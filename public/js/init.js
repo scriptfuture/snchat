@@ -15,14 +15,18 @@
 			
 			this.templates = {};  // шаблоны
 			this.lang = {};       // текущий языковой файл
+            this.currentLang = !!Helpers.getCookie("current_lang")?Helpers.getCookie("current_lang"):'ru_ru'; 			// или en_us
 
 
             this.baseUrl = "";
             this.context.imgUrl = this.baseUrl  + "/img";
             
             
-            this.isAuthorized = !!Helpers.getCookie("login");
+            this.isAuthorized = !!Helpers.getCookie("login") && !!Helpers.getCookie("sid");
             this.currentLogin = this.isAuthorized?Helpers.getCookie("login"):"";
+
+            // якорь
+            this.anchor = window.location.hash.replace("#","").replace(/^\//,"");
             
             
 			// передаём контекст
@@ -80,9 +84,9 @@
         },
 		
         compileTemplate: function(tplName, data) {
-
+            
             var template = Handlebars.compile($('#' + tplName).html());
-            return Handlebars.compile(template(data));
+            return template(data);
         },
 
         renderTemplate: function(targetId, data) {
@@ -95,15 +99,14 @@
             data["isAuthorized"] = this.isAuthorized;
             data["currentLogin"] = this.currentLogin;
             data["lang"] = this.lang;
-            
-            console.log(data);
+            data["anchor"] = this.anchor;
 
-            
+
+            var container = this.compileTemplate("container-tpl", data);
             var tmpl = this.compileTemplate(targetId, data);
-            var container = this.compileTemplate("container", data);
             
             // вставляем в контенер преобразованный шаблон
-            var container_tmpl = container().replace("<!--[content]-->", tmpl);
+            var container_tmpl = container.replace("<!--[content]-->", tmpl);
            
       
             $("#result").hide();
@@ -114,8 +117,29 @@
         },
 
         getLanguage: function() {
-            return 'ru_ru';
-			// или en_us
+            return this.currentLang;
+        },
+        
+        setLanguage: function(lang) {
+           this.currentLang = lang;
+           
+           Helpers.setCookie("current_lang", lang)
+           
+            // загрузка шаблонов
+            var self = this;
+            this.readyApp(function(data, err) {
+			
+			    var obj = data.templates;
+
+			    // добавляем шаблоны в html-код виджета
+		        for(var i in obj) {
+			        $(self.appId).append(obj[i]);
+		        } // end for
+                
+                // Инициализируем роутер
+       		    Router.init(this);
+
+            });
         },
 
         // получаем перевод слова

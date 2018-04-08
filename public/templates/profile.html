@@ -1,6 +1,6 @@
 
 <!--- login ----------------------------------------------------------------------------------------------------------->
-<script id="login" type="text/x-handlebars-template">
+<script id="signin" type="text/x-handlebars-template">
 
     <main role="main" class="container">	
 	   <form id="login-send" class="form-signin">
@@ -25,7 +25,6 @@
 
 
 		  <button class="btn btn-lg btn-primary btn-block" name="submit" type="button" value="{{lang.button.login}}" data-form="login-send">{{lang.button.login}}</button>
-		  <p class="mt-5 mb-3 text-muted text-center">&copy; 2014-2018</p>
 		</form>
 	</div>
  
@@ -112,20 +111,25 @@
 		</div>
        
     
-        <form id="settings-send" class="form-box">
+        <form id="settings-send" class="form-box"  enctype="multipart/form-data">
         
         <div class="alert alert-danger hide" role="alert" data-form-error></div>
 		<div class="alert alert-info hide" role="alert" data-form-info></div>
 
           <div class="form-group">
-            <label for="exampleInputPassword1">{{lang.text.password}}</label>
+            <label for="password">{{lang.text.password}}</label>
             <input type="password" class="form-control" id="password" name="password">
           </div>
           
           <div class="form-group">
-            <label for="exampleInputPassword1">{{lang.text.repeatPassword}}</label>
+            <label for="repassword">{{lang.text.repeatPassword}}</label>
             <input type="password" class="form-control" id="repassword" name="repassword">
           </div>
+          
+          <!--div class="form-group">
+           <label for="downloaded_file">{{lang.text.avatar}}</label>
+           <input type="file" class="form-control" name="downloaded_file" id="downloaded_file" multiple="multiple">
+          </div-->
 
           <button type="submit" class="btn btn-primary"  data-form="settings-send">{{lang.button.save}}</button>
         </form>

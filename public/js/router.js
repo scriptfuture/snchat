@@ -9,7 +9,7 @@ var Router = (function(self, paramsReact) {
         "messages": "messages",
         "exit": "exit",
         "signup": "signup",
-        "login": "login",
+        "signin": "signin",
         "settings": "settings"
         
        // "news\/([0-9]+)\/([0-9]+)": "news(num,id)"
@@ -40,13 +40,16 @@ var Router = (function(self, paramsReact) {
             
         } // end for
         
+        // меняем глобальный якорь
+        self.That.anchor = anc;
+
         if(/\(/g.test(route_name)) {
             
             var rs = route_name.split('(');
             var p = rs[1].replace(/\)$/gi, '');
             var p_arr = p.split(','); 
         
-            var param = {"lang": self.That.lang};
+            var param = {"lang": self.That.lang, "anchor": anc};
             for(var i in route_arr) {
                 if(i != 0) {
                     if(!!p_arr[i-1]) param[(p_arr[i-1] + "").trim()] = route_arr[i];
@@ -58,7 +61,7 @@ var Router = (function(self, paramsReact) {
         
         } else {
             
-           self.route(route_name, {"lang": self.That.lang}); 
+           self.route(route_name, {"lang": self.That.lang, "anchor": anc}); 
         } // end if
  
     };
@@ -88,6 +91,7 @@ var Router = (function(self, paramsReact) {
 		if(typeof self["_" + state] !== 'undefined') {
 		    self["_" + state](params);
 		} else {
+            
 		    // Если роут не обноружен, просто реднерим шаблон
             self.That.renderTemplate(state_src);
 				
@@ -96,8 +100,8 @@ var Router = (function(self, paramsReact) {
 			// Обработчики меню
              Reactions.use("menu", params);	
 			 
-			// Обработчики форм
-            Reactions.use("forms", params);
+			 // Обработчики форм
+             Reactions.use("forms", params);
 			//-------------------------------------
 		} // end if
 		
@@ -323,6 +327,11 @@ var Router = (function(self, paramsReact) {
 				 Reactions.use("info", {"text": self.That.getTranslation("registrationSuccessful", "text"), "time": 5000});
 				 
 				 Reactions.use("clearForm", {"formId": "signup-send"});
+                 
+                 setTimeout(function() {
+		              location.href = "/#/signin";
+			     }, 5000);
+                 
 				
 			}); 
 		
@@ -410,6 +419,10 @@ var Router = (function(self, paramsReact) {
             // чистим переменые авториации
             self.That.isAuthorized = false;
             self.That.currentLogin = "";
+            
+            // удаляем куки
+            Helpers.deleteCookie("login");
+            Helpers.deleteCookie("sid");
 			
 			// отображаем публичную страницу с сообщениями
 			self._messages_pub(params);
@@ -417,5 +430,22 @@ var Router = (function(self, paramsReact) {
 
     }; // end fun
     //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+    //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+    self._change_ru = function(params) {
+		
+        // переключаем язык
+        self.That.setLanguage('ru_ru');
+
+    }; // end fun
+    //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+    //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+    self._change_en = function(params) {
+		
+        // переключаем язык
+        self.That.setLanguage('en_us');
+
+    }; // end fun
+    //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+    
     return self;
 })(Router || {}, {});

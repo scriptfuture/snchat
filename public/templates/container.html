@@ -1,27 +1,63 @@
-<script id="container" type="text/x-handlebars-template">
+<script id="container-tpl" type="text/x-handlebars-template">
 
 
 {{#ifTrue isAuthorized}}
 	   <nav class="navbar navbar-expand-md navbar-dark bg-dark mb-4">
-		  <a class="navbar-brand" href="#">SNChat</a>
+		  <a class="navbar-brand" href="/#/messages">SNChat</a>
 		  <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarCollapse" aria-controls="navbarCollapse" aria-expanded="false" aria-label="Toggle navigation">
 			<span class="navbar-toggler-icon"></span>
 		  </button>
 		  <div class="collapse navbar-collapse" id="navbarCollapse">
 			<ul class="navbar-nav mr-auto">
+            
+             {{#ifCond anchor 'messages'}}
 			  <li class="nav-item active">
-				<a class="nav-link" href="/#/messages">Чат <span class="sr-only">(current)</span></a>
+				<a class="nav-link">{{lang.link.chat}}</a>
 			  </li>
-			  
+              {{else}}
 			  <li class="nav-item">
-				<a class="nav-link" href="/#/settings">Настройки</a>
+				<a class="nav-link" href="/#/messages">{{lang.link.chat}}</a>
 			  </li>
-			  
+              {{/ifCond}}
+              
+             {{#ifCond anchor 'settings'}}
+			  <li class="nav-item active">
+				<a class="nav-link">{{lang.link.settings}}</a>
+			  </li>
+              {{else}}
 			  <li class="nav-item">
-				<a class="nav-link" href="/#/exit">Выход</a>
+				<a class="nav-link" href="/#/settings">{{lang.link.settings}}</a>
 			  </li>
+              {{/ifCond}}
+              
 
 			</ul>
+            
+            
+      <ul class="navbar-nav ml-auto">
+        <li class="nav-item dropdown">
+          <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">{{lang.link.language}}</a>
+          <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+            <a class="dropdown-item" href="#" data-link="change_ru">{{lang.link.lang_ru}}</a>
+            <a class="dropdown-item" href="#" data-link="change_en">{{lang.link.lang_en}}</a>
+          </div>
+        </li>
+        
+        <li class="nav-item">
+          <a class="nav-link active">&nbsp; <b>{{currentLogin}}</b> &nbsp;</a>
+        </li>
+    
+             {{#ifCond anchor 'exit'}}
+			  <li class="nav-item active">
+				<a class="nav-link">{{lang.link.exit}}</a>
+			  </li>
+              {{else}}
+			  <li class="nav-item">
+				<a class="nav-link" href="/#/exit">{{lang.link.exit}}</a>
+			  </li>
+              {{/ifCond}}
+        </ul>
+    
 		  </div>
 		</nav>
         
@@ -34,21 +70,62 @@
 		  </button>
 		  <div class="collapse navbar-collapse" id="navbarCollapse">
 			<ul class="navbar-nav mr-auto">
+            
+             {{#ifCond anchor '@messages'}}
 			  <li class="nav-item active">
-				<a class="nav-link" href="/#/@messages">Чат <span class="sr-only">(current)</span></a>
+				<a class="nav-link">{{lang.link.chat}}</a>
 			  </li>
+              {{else}}
 			  <li class="nav-item">
-				<a class="nav-link" href="/#/login">Вход в систему</a>
+				<a class="nav-link" href="/#/@messages">{{lang.link.chat}}</a>
 			  </li>
+              {{/ifCond}}
+              
+             {{#ifCond anchor 'signin'}}
+			  <li class="nav-item active">
+				<a class="nav-link">{{lang.link.login}}</a>
+			  </li>
+              {{else}}
 			  <li class="nav-item">
-				<a class="nav-link" href="/#/signup">Регистрация</a>
+				<a class="nav-link" href="/#/signin">{{lang.link.login}}</a>
 			  </li>
+              {{/ifCond}}
+              
+              
+             {{#ifCond anchor 'signup'}}
+			  <li class="nav-item active">
+				<a class="nav-link">{{lang.link.signup}}</a>
+			  </li>
+              {{else}}
+			  <li class="nav-item">
+				<a class="nav-link" href="/#/signup">{{lang.link.signup}}</a>
+			  </li>
+              {{/ifCond}}
+              
 
 			</ul>
+            
+      <ul class="navbar-nav ml-auto">
+        <li class="nav-item dropdown">
+          <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">{{lang.link.language}}</a>
+          <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+            <a class="dropdown-item" href="#" data-link="change_ru">{{lang.link.lang_ru}}</a>
+            <a class="dropdown-item" href="#" data-link="change_en">{{lang.link.lang_en}}</a>
+          </div>
+        </li>
+        
+        <li class="nav-item">
+          <a class="nav-link active">&nbsp; &nbsp;</a>
+        </li>
+
+        </ul>
+            
 		  </div>
 		</nav>
 
 {{/ifTrue}}
+
+
         
         <!--[content]-->
 

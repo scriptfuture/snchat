@@ -31,6 +31,14 @@ var Helpers = (function(self, FConfig) {
           }
           return options.inverse(this);
         });
+        
+        Handlebars.registerHelper('ifCond', function(v1, v2, options) {
+          if(v1 === v2) {
+            return options.fn(this);
+          }
+          return options.inverse(this);
+        });
+        
     }; // end fun
     //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
     // Подготовка данных перед выводом
@@ -179,7 +187,7 @@ var Helpers = (function(self, FConfig) {
     //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 	// Удаляет cookie
 	self.deleteCookie = function(name) {
-	    setCookie(name, null, { expires: -1 })
+	    self.setCookie(name, null, { expires: -1 })
 	}; // end fun
     //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
     //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++

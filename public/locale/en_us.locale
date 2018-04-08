@@ -4,6 +4,7 @@
         "messagesLogin": "To view earlier messages, you must log in.",
 		"lastMessage": "Last message",
 		"user2": "user",
+        "avatar": "Avatar",
 
 		"signIn": "Sign in",
 		"toWriteMessage": " to write a message ",
@@ -25,7 +26,10 @@
 	    "login": "Login",
 	    "chat": "Chat",
 	    "settings": "Settings",
-	    "exit": "Exit"
+	    "exit": "Exit",
+        "lang_ru":"Russian (Русский)",
+        "lang_en":"English (Английский)",
+        "language":"Language (English)"
 	},
     "button": {
         "update": "Update",

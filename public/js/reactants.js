@@ -18,7 +18,7 @@ var Reactions = (function(self, paramsReact) {
 
     //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
     //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
-    self._info = function(params) {
+    self._info = function(params, callback) {
 		
 	    var obj = $("div[data-form-info]");
 		obj.html(params.text);
