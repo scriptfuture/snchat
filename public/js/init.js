@@ -3,7 +3,7 @@
     'use strict';
 
     // Точка входа в виджет
-    function Guestbook(moduleId, noIndex, moduleBaseUrl) {
+    function SNChat(moduleId, noIndex, moduleBaseUrl) {
 
             this.appId = 'body';  // добавляем все загрузки прямо в body
             this.$el = $(this.appId);
@@ -19,14 +19,19 @@
 
             this.baseUrl = "";
             this.context.imgUrl = this.baseUrl  + "/img";
-			
-			// Инициализируем помошники
-		    Helpers.init(this);
-			
+            
+            
+            this.isAuthorized = !!Helpers.getCookie("login");
+            this.currentLogin = this.isAuthorized?Helpers.getCookie("login"):"";
+            
+            
 			// передаём контекст
 			Router.setThat(this);
 			Reactions.setThat(this);
 			API.setThat(this);
+            
+			// Инициализируем помошники
+		    Helpers.init(this);
 			
 			//  перв. установка ajax-запросов
             API.setup();
@@ -41,14 +46,15 @@
 		        for(var i in obj) {
 			        $(self.appId).append(obj[i]);
 		        } // end for
-				
-				// точка входа (главная страница)
-		        Router.route("messages-pub", data);
+                
+                // Инициализируем роутер
+       		    Router.init(this);
+
             });
 
         } // end fun
 
-    Guestbook.prototype = {
+    SNChat.prototype = {
 
 	    // загрузка шаблонов	(производится один раз)
         readyApp: function(callback) {
@@ -84,14 +90,24 @@
             if (typeof data === 'undefined') {
                 data = {};
             } // end fun
+            
+            // текущее состояниеавторизации
+            data["isAuthorized"] = this.isAuthorized;
+            data["currentLogin"] = this.currentLogin;
+            data["lang"] = this.lang;
+            
+            console.log(data);
 
+            
             var tmpl = this.compileTemplate(targetId, data);
-
+            var container = this.compileTemplate("container", data);
+            
+            // вставляем в контенер преобразованный шаблон
+            var container_tmpl = container().replace("<!--[content]-->", tmpl);
+           
+      
             $("#result").hide();
-            $("#result").html(tmpl);
-
-           // this.lesscssInit();
-
+            $("#result").html(container_tmpl);
             $("#result").show();
 			
 			return tmpl;
@@ -140,6 +156,6 @@
         }
     }; // end prototype
 
-    new Guestbook();
+    new SNChat();
 
 })();

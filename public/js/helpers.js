@@ -24,6 +24,13 @@ var Helpers = (function(self, FConfig) {
         Handlebars.registerHelper('formatdatelite', function(text) {
             return self.formatDateLite(text);
         });
+        
+        Handlebars.registerHelper('ifTrue', function(c, options) {
+          if(c) {
+            return options.fn(this);
+          }
+          return options.inverse(this);
+        });
     }; // end fun
     //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
     // Подготовка данных перед выводом

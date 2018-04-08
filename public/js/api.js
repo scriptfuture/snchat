@@ -68,24 +68,16 @@ var API = (function(self, FConfig) {
 	
 	
 	self.ajaxSetup = function() {
-		var stat = true;
 		$.ajaxSetup({
             headers: {
                 Accept: "application/json",
             },
             cache: false,	
             beforeSend: function() {
-				// показывае лоадер, только по прошествии 1 сек. 
-				// для ощущения мгновенности
-				setTimeout(function() {
-					if(stat) {
-			            $("img[data-loader]").show();
-					} // end if
-				},1000);
+                $("#loader").show();
             },
 			complete: function() {
-				stat = false;
-			    $("img[data-loader]").hide();
+			    $("#loader").hide();
             }
         });
 	},

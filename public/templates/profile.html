@@ -17,7 +17,7 @@
 			<input type="text" name="login" id="inputLogin" class="form-control" placeholder="{{lang.text.login}}" required autofocus>
 			<label for="inputEmail"><br /></label>
 		  </div>
-
+          
 		  <div class="form-label-group">
 			<input type="password" name="password" id="inputPassword" class="form-control" placeholder="{{lang.text.password}}" required>
 			<label for="inputPassword"><br /></label>
@@ -35,81 +35,48 @@
 <!--- signup ----------------------------------------------------------------------------------------------------------->
 <script id="signup" type="text/x-handlebars-template">
 
-    <main role="main" class="container">
-   <form class="form-horizontal" role="form" method="POST" action="/register">
-        <div class="row">
-            <div class="col-md-3"></div>
-            <div class="col-md-6">
-                <h2>Register New User</h2>
-                <hr>
-            </div>
-        </div>
+
+   <main role="main" class="container">
+   
+   <form class="form-horizontal form-signup" id="signup-send">
+
+		<div class="text-center mb-4">
+			<h1 class="h3 mb-3 font-weight-normal">{{lang.link.signup}}</h1>
+		</div>
+        
+        <div class="alert alert-danger hide" role="alert" data-form-error></div>
+		<div class="alert alert-info hide" role="alert" data-form-info></div>
+        
         <div class="row">
             <div class="col-md-3 field-label-responsive">
-                <label for="name">Name</label>
+                <label for="name">{{lang.text.login}}</label>
             </div>
             <div class="col-md-6">
                 <div class="form-group">
                     <div class="input-group mb-2 mr-sm-2 mb-sm-0">
                         <div class="input-group-addon" style="width: 2.6rem"><i class="fa fa-user"></i></div>
-                        <input type="text" name="name" class="form-control" id="name"
-                               placeholder="John Doe" required autofocus>
+                        <input type="text" name="login" class="form-control" id="login" required autofocus>
                     </div>
                 </div>
             </div>
-            <div class="col-md-3">
-                <div class="form-control-feedback">
-                        <span class="text-danger align-middle">
-                            <!-- Put name validation error messages here -->
-                        </span>
-                </div>
-            </div>
         </div>
+
         <div class="row">
             <div class="col-md-3 field-label-responsive">
-                <label for="email">E-Mail Address</label>
-            </div>
-            <div class="col-md-6">
-                <div class="form-group">
-                    <div class="input-group mb-2 mr-sm-2 mb-sm-0">
-                        <div class="input-group-addon" style="width: 2.6rem"><i class="fa fa-at"></i></div>
-                        <input type="text" name="email" class="form-control" id="email"
-                               placeholder="you@example.com" required autofocus>
-                    </div>
-                </div>
-            </div>
-            <div class="col-md-3">
-                <div class="form-control-feedback">
-                        <span class="text-danger align-middle">
-                            <!-- Put e-mail validation error messages here -->
-                        </span>
-                </div>
-            </div>
-        </div>
-        <div class="row">
-            <div class="col-md-3 field-label-responsive">
-                <label for="password">Password</label>
+                <label for="password">{{lang.text.password}}</label>
             </div>
             <div class="col-md-6">
                 <div class="form-group has-danger">
                     <div class="input-group mb-2 mr-sm-2 mb-sm-0">
                         <div class="input-group-addon" style="width: 2.6rem"><i class="fa fa-key"></i></div>
-                        <input type="password" name="password" class="form-control" id="password"
-                               placeholder="Password" required>
+                        <input type="password" name="password" class="form-control" id="password" required>
                     </div>
-                </div>
-            </div>
-            <div class="col-md-3">
-                <div class="form-control-feedback">
-                        <span class="text-danger align-middle">
-                            <i class="fa fa-close"> Example Error Message</i>
-                        </span>
                 </div>
             </div>
         </div>
         <div class="row">
             <div class="col-md-3 field-label-responsive">
-                <label for="password">Confirm Password</label>
+                <label for="password">{{lang.text.repeatPassword}}</label>
             </div>
             <div class="col-md-6">
                 <div class="form-group">
@@ -117,8 +84,8 @@
                         <div class="input-group-addon" style="width: 2.6rem">
                             <i class="fa fa-repeat"></i>
                         </div>
-                        <input type="password" name="password-confirmation" class="form-control"
-                               id="password-confirm" placeholder="Password" required>
+                        <input  type="password" name="repassword" class="form-control"
+                               id="repassword" required>
                     </div>
                 </div>
             </div>
@@ -126,54 +93,11 @@
         <div class="row">
             <div class="col-md-3"></div>
             <div class="col-md-6">
-                <button type="submit" class="btn btn-success"><i class="fa fa-user-plus"></i> Register</button>
+                <button name="Send" type="button" class="btn btn-success"  data-form="signup-send"><i class="fa fa-user-plus"></i> {{lang.button.send}}</button>
             </div>
         </div>
     </form>
   </main>
-
-  
-  <!--div class="container">
-    <div class="container-box">
-	    <img src="/img/ajax-loader.gif" class="loader" data-loader>
-		<h1>{{lang.text.widgetName}}</h1>
-		<div class="menu">
-			<a href="#" data-link="messages-pub">{{lang.link.messages}}</a> &nbsp;|&nbsp; 
-		     <a href="#" data-link="login">{{lang.link.login}}</a>
-		</div>
-		<div class="content">
-		   <div class="content-header">
-		       <h2><b>&nbsp; {{lang.link.signup}}</b></h2>
-		   </div>
-		   <div class="form-content-info" data-form-info></div>
-		   <div class="form-content-error" data-form-error></div>
-		   <div class="form-block">
-                <form id="signup-send">
-                   <div class="form-line">
-				       {{lang.text.login}}:<br>
-				       <input type="text" name="login" size="50">
-				   </div>
-                   <div class="form-line">
-				       {{lang.text.password}}:<br>
-                       <input type="password" name="password" size="50">
-				   </div>
-                   <div class="form-line">
-				       {{lang.text.repeatPassword}}:<br>
-                       <input type="password" name="repassword" size="50">
-				   </div>
-                   <div class="form-line">
-                       <input name="Send" type="button" value="{{lang.button.send}}" data-form="signup-send"> 
-                   </div>				   
-              </form>
-
-		   </div>
-		 
-		</div>
-		
-    </div> 
-
-    </div>
-  </div-->
 
 
 </script>
@@ -181,44 +105,52 @@
 <!--- settings ----------------------------------------------------------------------------------------------------------->
 <script id="settings" type="text/x-handlebars-template">
 
- <div class="container">
-    <div class="container-box">
-	    <img src="/img/ajax-loader.gif" class="loader" data-loader>
-		<h1>{{lang.text.widgetName}}</h1>
-		<div class="menu">
-			<a href="#" data-link="messages">{{lang.link.messages}}</a> &nbsp;|&nbsp; 
-			<a href="#" data-link="exit">{{lang.link.exit}}</a>
+    <main role="main" class="container">
+    
+		<div class="text-center mb-4">
+			<h1 class="h3 mb-3 font-weight-normal">{{lang.link.settings}}</h1>
 		</div>
-		<div class="content">
-		   <div class="content-header">
-		       <h2><b>&nbsp; {{lang.link.settings}}</b></h2>
-		   </div>
-		   <div class="form-content-info" data-form-info></div>
-		   <div class="form-content-error" data-form-error></div>
-		   <div class="form-block">
-                <form id="settings-send">
-				   <div class="form-subtitle">{{lang.text.changePassword}}</div>
-                   <div class="form-line">
-				       {{lang.text.password}}:<br>
-                       <input type="password" name="password" size="50">
-				   </div>
-                   <div class="form-line">
-				       {{lang.text.repeatPassword}}:<br>
-                       <input type="password" name="repassword" size="50">
-				   </div>
-                   <div class="form-line">
-                       <input name="Submit" type=button value="{{lang.button.save}}" data-form="settings-send"> 
-                   </div>				   
-              </form>
+       
+    
+        <form id="settings-send" class="form-box">
+        
+        <div class="alert alert-danger hide" role="alert" data-form-error></div>
+		<div class="alert alert-info hide" role="alert" data-form-info></div>
 
-		   </div>
-		 
-		</div>
-		
-    </div> 
+          <div class="form-group">
+            <label for="exampleInputPassword1">{{lang.text.password}}</label>
+            <input type="password" class="form-control" id="password" name="password">
+          </div>
+          
+          <div class="form-group">
+            <label for="exampleInputPassword1">{{lang.text.repeatPassword}}</label>
+            <input type="password" class="form-control" id="repassword" name="repassword">
+          </div>
 
-    </div>
-  </div>
+          <button type="submit" class="btn btn-primary"  data-form="settings-send">{{lang.button.save}}</button>
+        </form>
+    
+    </main>
+
+</script>
+<!--- \settings ---------------------------------------------------------------------------------------------------------->
+<!--- settings ----------------------------------------------------------------------------------------------------------->
+<script id="not-authorized" type="text/x-handlebars-template">
+
+    <main role="main" class="container">
+       
+        <div class="mb-4 content">
+           <h1 class="h3 font-weight-normal">{{lang.error.err1}}</h1>
+             <br />
+             <p>{{lang.text.PleaseLoginAgain}}</p>
+             
+             
+        </div>
+    
+    
+
+    
+    </main>
 
 </script>
 <!--- \settings ---------------------------------------------------------------------------------------------------------->

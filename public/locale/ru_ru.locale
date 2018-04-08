@@ -7,7 +7,7 @@
 		
 		"signIn": "Авторизуйтесь",
 		"toWriteMessage": ", чтобы написать сообщение",
-		"inTheGuestbook": "в гостевую книгу. ",
+		"inTheChat": "в чат. ",
 		"login": "Логин",
 		"password": "Пароль",
 		"repeatPassword": "Повторите пароль",
@@ -16,7 +16,8 @@
 		"registrationSuccessful": "Регистрация прошла успешно!",
 		"settingsSuccess": "Настройки успешно сохранены!",
 		"morePosts": "Ещё соообщений",
-		"WriteAReply": "Текст сообшения..."
+		"WriteAReply": "Текст сообшения...",
+        "PleaseLoginAgain": "Пожалуйста, авторизуйтесь снова."
 		
     },
 	"link": {

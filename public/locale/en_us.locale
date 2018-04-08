@@ -7,7 +7,7 @@
 
 		"signIn": "Sign in",
 		"toWriteMessage": " to write a message ",
-		"inTheGuestbook": "in the guestbook",
+		"inTheChat": "in the chat",
 		"login": "Login",
 		"password": "Password",
 		"repeatPassword": "Repeat password",
@@ -16,7 +16,8 @@
 		"registrationSuccessful": "Registration successful!",
 		"settingsSuccess":"Settings saved successfully",
 		"morePosts": "More posts",
-		"WriteAReply": "Write a reply..."
+		"WriteAReply": "Write a reply...",
+        "PleaseLoginAgain": "Please log in again."
     },
 	"link": {
 	    "messages": "Messages",
