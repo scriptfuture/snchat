@@ -29,6 +29,16 @@
             this.anchor = window.location.hash.replace("#","").replace(/^\//,"");
             
             
+            // websockets в Хроме не работают, используем xhr
+            this.isChrome = false;
+            if (navigator.userAgent.toLowerCase().indexOf('chrome') != -1) {
+                this.isChrome = true;
+            } // end if
+            
+            // текущий сокет
+            this.socket = null;
+            
+            
 			// передаём контекст
 			Router.setThat(this);
 			Reactions.setThat(this);
@@ -42,29 +52,28 @@
 
             // загрузка шаблонов
             var self = this;
+            
             this.readyApp(function(data, err) {
 			
-			    var obj = data.templates;
+                 var obj = data.templates;
 
-			    // добавляем шаблоны в html-код виджета
-		        for(var i in obj) {
-			        $(self.appId).append(obj[i]);
-		        } // end for
-                
-                // Инициализируем роутер
-       		    Router.init(this);
+                 // добавляем шаблоны в html-код виджета
+                 for(var i in obj) {
+                     $(self.appId).append(obj[i]);
+                 } // end for
+                    
+                 // Инициализируем роутер
+                 Router.init(self);
 
             });
 
         } // end fun
 
     SNChat.prototype = {
-
-	    // загрузка шаблонов	(производится один раз)
-        readyApp: function(callback) {
-			
-			var self = this;	
-
+        
+        readyGetFiles: function(callback) {
+            var self = this;
+            
 			$.ajax({
                  type: "GET",
                  dataType: "json",
@@ -80,6 +89,27 @@
             }).fail(function(e) {
                  callback(null, e);
            });
+        },
+
+	    // загрузка шаблонов	(производится один раз)
+        readyApp: function(callback) {
+		    var self = this;	
+            
+            if(this.isChrome) {
+                self.readyGetFiles(callback);
+            } else {
+                
+                // подключаем сокет
+                API.socketConnect(function(socket){
+                    self.socket = socket;
+                    self.readyGetFiles(callback);
+                }, function(msg) {
+                    
+                    
+                    Router.route("one-message-new", {"text": msg.text, "login": msg.name, "datetime": (new Date(msg.time)).getTime()});
+                });
+                
+            } // end if
 					
         },
 		
@@ -129,15 +159,15 @@
             var self = this;
             this.readyApp(function(data, err) {
 			
-			    var obj = data.templates;
+                var obj = data.templates;
 
-			    // добавляем шаблоны в html-код виджета
-		        for(var i in obj) {
-			        $(self.appId).append(obj[i]);
-		        } // end for
-                
+                // добавляем шаблоны в html-код виджета
+                for(var i in obj) {
+                    $(self.appId).append(obj[i]);
+                } // end for
+                    
                 // Инициализируем роутер
-       		    Router.init(this);
+                Router.init(self);
 
             });
         },

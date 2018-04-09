@@ -150,20 +150,26 @@ var Reactions = (function(self, paramsReact) {
 		
 		var counter = 0;
 		
-		// удаляем старую метку интервала таймера для списка сообщений
-		// здесь так-же необходим этот код, так как происходит ручной рендеринг
-		// в роуте messages_new
-		clearInterval(self.That.updateMessagesIntervalId);
-		self.That.updateMessagesIntervalId = null;
-		
-		// бесконечный цикл проверки новый сообщений на сервере
-		self.That.updateMessagesIntervalId = setInterval(function(){ 
-			counter++;
+        if(self.That.isChrome) {
 
-			// загружаем новые сообщения
-			// не используем use(), что бы не удалить IntervalId
-			Router._messages_new(params);
-		}, 5000);
+            clearInterval(self.That.updateMessagesIntervalId);
+            self.That.updateMessagesIntervalId = null;
+            
+            // бесконечный цикл проверки новый сообщений на сервере
+            self.That.updateMessagesIntervalId = setInterval(function(){ 
+                counter++;
+
+                // загружаем новые сообщения
+                // не используем use(), что бы не удалить IntervalId
+                Router._messages_new(params);
+            }, 5000);
+        
+        } else {
+            
+            
+        } // end if
+        
+       
     }; // end fun
     //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 

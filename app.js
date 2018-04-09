@@ -71,6 +71,8 @@ io.sockets.on('connection', function (socket) {
 	var time = (new Date).toLocaleTimeString();
 	// Посылаем клиенту сообщение о том, что он успешно подключился и его имя
 	socket.json.send({'event': 'connected', 'name': ID, 'time': time});
+    
+    
 	// Посылаем всем остальным пользователям, что подключился новый клиент и его имя
 	socket.broadcast.json.send({'event': 'userJoined', 'name': ID, 'time': time});
 	// Навешиваем обработчик на входящее сообщение
@@ -132,9 +134,9 @@ app.get('/message/:id', function(req, res){
 // удалить сообщение
 app.get('/remove-message/:id', function(req, res){     
 // временно убираем
-     //access.checkAdmin(req, res, function(req, res) { 
+     access.checkAdmin(req, res, function(req, res) { 
 	     Messages.remove(req, res);  //-> доступ администратора
-   //  }); 
+     }); 
 });
 //---------------------------------------------------------------------------------------------------------------------------------
 //---------------------------------------------------------------------------------------------------------------------------------
@@ -160,10 +162,9 @@ app.get('/clean-sessions', function(req, res){
 });
 
 app.get('/sessions', function(req, res){
-   // временно для отладки отключаем
-  //   access.checkAdmin(req, res, function(req, res) { 
+     access.checkAdmin(req, res, function(req, res) { 
 	     Users.sessions(req, res);  //-> доступ администратора
-    // }); 
+     }); 
 });
 
 
@@ -174,10 +175,9 @@ app.get('/users',function(req, res) {
 });
 
 app.get('/all-users', function(req, res){
-	// временно для отладки отключаем
-   //  access.checkAdmin(req, res, function(req, res) { 
+    access.checkAdmin(req, res, function(req, res) { 
 	     Users.all(req, res);  //-> доступ администратора
-   //  }); 
+    }); 
 });
 
 app.get('/user/:login', function(req, res){

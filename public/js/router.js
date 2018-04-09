@@ -187,10 +187,14 @@ var Router = (function(self, paramsReact) {
             if(params.postData.text.trim() !=='') {
 
                 // отправка сообщения
-                API.messageSend(params.postString, function(messages){
+                API.messageSend(params.postString, params.postData.text.trim(),  function(){
                     
-                    // отображения новых сообщений
-                    self._messages_new(params);
+                   if(self.That.isChrome) {
+                    
+                        // отображения новых сообщений
+                       self._messages_new(params);
+                   
+                   } // end if
                 }); 
             
             } else {
@@ -271,6 +275,30 @@ var Router = (function(self, paramsReact) {
                 } // end if
                 
              });
+        
+         } else {
+            
+              Reactions.use("error", {
+                  "error_code": 1,
+                  "error_text": "The session has expired!"
+              });
+                    
+        } // end if
+
+
+    }; // end fun
+    //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+    //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+    self._one_message_new = function(params) {
+        
+        if(self.That.isAuthorized) {
+
+             var resTpl = self.That.compileTemplate("one-message-new", {"text": params.text, "login": params.login, "datetime": params.datetime});
+             $("div[data-messages]").append(resTpl);	
+             $("#messages-send-update textarea").val(""); // чистим поле с текстом
+                    
+             // прокрутить скрол вниз
+             Reactions.use("scrollBottom", API.messagesCurrentList);
         
          } else {
             

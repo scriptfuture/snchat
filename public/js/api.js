@@ -94,6 +94,55 @@ var API = (function(self, FConfig) {
 		
         self.ajaxSetup();
     }; // end fun
+    
+    self.socketConnect =  function(callback, cb_msg) {
+        
+        var socket = null;
+        
+        // Создаем соединение с сервером; websockets почему-то в Хроме не работают, используем xhr
+        if (navigator.userAgent.toLowerCase().indexOf('chrome') != -1) {
+            socket = io.connect('http://localhost:8080', {'transports': ['xhr-polling']});
+        } else {
+            socket = io.connect('http://localhost:8080');
+        }
+        
+        socket.on('connect', function () {
+            
+            alert('connect');
+            
+            socket.on('message', function (msg) {
+                
+                console.log(msg);
+                
+                cb_msg(msg);
+                
+                // Добавляем в лог сообщение, заменив время, имя и текст на полученные
+               // document.querySelector('#log').innerHTML += strings[msg.event].replace(/\[([a-z]+)\]/g, '<span class="$1">').replace(/\[\/[a-z]+\]/g, '</span>').replace(/\%time\%/, msg.time).replace(/\%name\%/, msg.name).replace(/\%text\%/, unescape(msg.text).replace('<', '&lt;').replace('>', '&gt;')) + '<br>';
+                // Прокручиваем лог в конец
+               // document.querySelector('#log').scrollTop = document.querySelector('#log').scrollHeight;
+            });
+            
+            callback(socket);
+            
+            // При нажатии <Enter> или кнопки отправляем текст
+            /*
+            document.querySelector('#input').onkeypress = function(e) {
+                if (e.which == '13') {
+                    // Отправляем содержимое input'а, закодированное в escape-последовательность
+                    socket.send(escape(document.querySelector('#input').value));
+                    // Очищаем input
+                    document.querySelector('#input').value = '';
+                }
+            };
+            document.querySelector('#send').onclick = function() {
+                socket.send(escape(document.querySelector('#input').value));
+                document.querySelector('#input').value = '';
+            };	
+*/
+            
+        });
+        
+    };
 	
     self.messages = function(skip, lim, callback) {
 		
@@ -122,27 +171,36 @@ var API = (function(self, FConfig) {
         });
     }; // end fun
 	
-    self.messageSend = function(postString, callback) {
+    self.messageSend = function(postString, text, callback) {
+        
+        if(self.That.isChrome) {
 		
-		self.ajaxSetup();
-		
-        return $.ajax({
-            type: "POST",
-            dataType: "json",
-            url: self.mixinSID(self.url + "/add-message"),
-            data: postString
-        }).done(function(data) {
-            if (data.status !== 'success') {
-                Reactions.use("errorContent", data);
-            } else  {
-				callback();  // возврат последних сообщений и текущих
-			}// end if
-        }).fail(function(e) {
-			var errText = self.That.standartError(e.status, e.responseText);
-            Reactions.use("errorContent", {
-                "error_text": errText
+            return $.ajax({
+                type: "POST",
+                dataType: "json",
+                url: self.mixinSID(self.url + "/add-message"),
+                data: postString
+            }).done(function(data) {
+                if (data.status !== 'success') {
+                    Reactions.use("errorContent", data);
+                } else  {
+                    callback();  // возврат последних сообщений и текущих
+                }// end if
+            }).fail(function(e) {
+                var errText = self.That.standartError(e.status, e.responseText);
+                Reactions.use("errorContent", {
+                    "error_text": errText
+                });
             });
-        });
+        
+        } else {
+            
+            self.That.socket.send(escape(text));
+            callback();  // возврат последних сообщений и текущих
+            
+        } // end if
+        
+    
     }; // end fun
 	
 	// выборка младше указанной даты
