@@ -97,48 +97,19 @@ var API = (function(self, FConfig) {
     
     self.socketConnect =  function(callback, cb_msg) {
         
-        var socket = null;
-        
-        // Создаем соединение с сервером; websockets почему-то в Хроме не работают, используем xhr
-        if (navigator.userAgent.toLowerCase().indexOf('chrome') != -1) {
-            socket = io.connect('http://localhost:8080', {'transports': ['xhr-polling']});
-        } else {
-            socket = io.connect('http://localhost:8080');
-        }
+        var socket = io.connect('http://localhost:8080');
+
         
         socket.on('connect', function () {
             
-            alert('connect');
+            console.log('socket connect: localhost:8080');
             
             socket.on('message', function (msg) {
-                
-                console.log(msg);
-                
+
                 cb_msg(msg);
-                
-                // Добавляем в лог сообщение, заменив время, имя и текст на полученные
-               // document.querySelector('#log').innerHTML += strings[msg.event].replace(/\[([a-z]+)\]/g, '<span class="$1">').replace(/\[\/[a-z]+\]/g, '</span>').replace(/\%time\%/, msg.time).replace(/\%name\%/, msg.name).replace(/\%text\%/, unescape(msg.text).replace('<', '&lt;').replace('>', '&gt;')) + '<br>';
-                // Прокручиваем лог в конец
-               // document.querySelector('#log').scrollTop = document.querySelector('#log').scrollHeight;
             });
             
             callback(socket);
-            
-            // При нажатии <Enter> или кнопки отправляем текст
-            /*
-            document.querySelector('#input').onkeypress = function(e) {
-                if (e.which == '13') {
-                    // Отправляем содержимое input'а, закодированное в escape-последовательность
-                    socket.send(escape(document.querySelector('#input').value));
-                    // Очищаем input
-                    document.querySelector('#input').value = '';
-                }
-            };
-            document.querySelector('#send').onclick = function() {
-                socket.send(escape(document.querySelector('#input').value));
-                document.querySelector('#input').value = '';
-            };	
-*/
             
         });
         
@@ -195,7 +166,9 @@ var API = (function(self, FConfig) {
         
         } else {
             
-            self.That.socket.send(escape(text));
+            console.log(JSON.stringify({"text":text, "sid": Helpers.getCookie("sid")}));
+            
+            self.That.socket.send(encodeURIComponent(JSON.stringify({"text":text, "sid": Helpers.getCookie("sid")})));
             callback();  // возврат последних сообщений и текущих
             
         } // end if
@@ -212,11 +185,6 @@ var API = (function(self, FConfig) {
 			url: self.mixinSID(self.url + "/new-messages/" + dt + "/" + 30)
 		}).done(function(data) {
 			if (data.status == 'data') {
-			  //  self.messagesCurrentList = self.messagesCurrentList.concat(data.messages); // добавляем в массив текущих сообщений, новые сообщения
-			//	self.messagesCurrentDate = (new Date).getTime(); // обновляем дату выборки сообщений
-		
-			//	callback(self.messagesCurrentList);  // возврат последних сообщений и текущих
-			
 			   callback(data.messages);
 			} else {
 				Reactions.use("errorContent", data);

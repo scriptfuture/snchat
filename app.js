@@ -66,29 +66,59 @@ app.use(function (req, res, next) {
 
 // Навешиваем обработчик на подключение нового клиента
 io.sockets.on('connection', function (socket) {
-	// Т.к. чат простой - в качестве ников пока используем первые 5 символов от ID сокета
-	var ID = (socket.id).toString().substr(0, 5);
-	var time = (new Date).toLocaleTimeString();
+	
+
+
+    var id = 'U' + (socket.id).toString().substr(1,4);
+				
+
+    console.log(JSON.stringify({'event': 'connected', 'ID': id, 'datetime': (new Date).getTime()}));
+		
+			
 	// Посылаем клиенту сообщение о том, что он успешно подключился и его имя
-	socket.json.send({'event': 'connected', 'name': ID, 'time': time});
-    
-    
+	socket.json.send({'event': 'connected', 'ID': id, 'datetime': (new Date).getTime()});
+			
+			
 	// Посылаем всем остальным пользователям, что подключился новый клиент и его имя
-	socket.broadcast.json.send({'event': 'userJoined', 'name': ID, 'time': time});
+	socket.broadcast.json.send({'event': 'userJoined', 'ID': id, 'datetime': (new Date).getTime()});
+
+
+	
 	// Навешиваем обработчик на входящее сообщение
 	socket.on('message', function (msg) {
-		var time = (new Date).toLocaleTimeString();
-		// Уведомляем клиента, что его сообщение успешно дошло до сервера
-		socket.json.send({'event': 'messageSent', 'name': ID, 'text': msg, 'time': time});
-		// Отсылаем сообщение остальным участникам чата
-		socket.broadcast.json.send({'event': 'messageReceived', 'name': ID, 'text': msg, 'time': time})
+        
+        var data = JSON.parse(decodeURIComponent(msg));
+        
+        console.log(data);
+
+		access.check(data, null, function(req) { 
+        
+            console.log(JSON.stringify(req));
+		
+			Messages.addItem(req, function(gtime, form_text, form_login) {
+                
+
+                console.log(JSON.stringify({'event': 'messageSent', 'login': form_login, 'text': form_text, 'datetime': gtime}));
+				
+				// Уведомляем клиента, что его сообщение успешно дошло до сервера
+				socket.json.send({'event': 'messageSent', 'login': form_login, 'text': form_text, 'datetime': gtime});
+				
+				// Отсылаем сообщение остальным участникам чата
+				socket.broadcast.json.send({'event': 'messageReceived', 'login': form_login, 'text': form_text, 'datetime': gtime})
+				
+			});
+		}, data.sid);
+		
 	});
+	
 	// При отключении клиента - уведомляем остальных
 	socket.on('disconnect', function() {
-		var time = (new Date).toLocaleTimeString();
-		io.sockets.json.send({'event': 'userSplit', 'name': ID, 'time': time});
-	});
-});
+		io.sockets.json.send({'event': 'userSplit', 'ID': id, 'datetime': (new Date).getTime()});
+    });
+				
+
+	
+});  // end connection
 
 //---------------------------------------------------------------------------------------------------------------------------------
 

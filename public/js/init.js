@@ -105,8 +105,13 @@
                     self.readyGetFiles(callback);
                 }, function(msg) {
                     
+                    if(!!msg.text && msg.text !== "") {
                     
-                    Router.route("one-message-new", {"text": msg.text, "login": msg.name, "datetime": (new Date(msg.time)).getTime()});
+                        // добавление новых сообщений
+                        Router.route("one-message-new", {"text": msg.text, "login": msg.login, "datetime": msg.datetime});
+                    
+                    } // end if
+                    
                 });
                 
             } // end if
@@ -115,8 +120,17 @@
 		
         compileTemplate: function(tplName, data) {
             
-            var template = Handlebars.compile($('#' + tplName).html());
-            return template(data);
+           try {
+
+               var template = Handlebars.compile($('#' + tplName).html());
+               return template(data);
+            
+            } catch(e) {
+               console.warn("Invalid template");
+                    
+            }
+            
+            return "";
         },
 
         renderTemplate: function(targetId, data) {

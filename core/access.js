@@ -63,16 +63,25 @@ exports.cleanSessions = function(callback) {
 	Sessions.remove(callback);
 }; // end fun
 
-var checkSessionId = exports.checkSessionId = function(req, callback) {
+var checkSessionId = exports.checkSessionId = function(req, callback, sid) {
 	
 	var dtSec = new Date().getTime() * 1000;
 	
-    var CookieSID = utils.parseCookies(req)[config.sessionNameVar];
+    var CookieSID = "";
+    if(!!sid) {
+        CookieSID = sid;
+    } else {
+        CookieSID = utils.parseCookies(req)[config.sessionNameVar];
+    } // end iif
+ 
 	
 	// для CORS - подключений
-	if(typeof CookieSID === 'undefined') { 
+	if(typeof CookieSID === 'undefined' && typeof req.query !== 'undefined' && typeof req.query._sid !== 'undefined') { 
 	    CookieSID = req.query["_sid"];
 	} // end if
+    
+
+    console.log("CookieSID: "+CookieSID);
 	
     if(typeof CookieSID !== 'undefined') {
 		
@@ -92,7 +101,7 @@ var checkSessionId = exports.checkSessionId = function(req, callback) {
 					
 					// асинхронное обновление даты истечения, после каждой проверки удачной сессии
 					Sessions.update({'sid': CookieSID}, {"expirationTime": dt + (config.maxSessionTime * 1000)}, function() {
-						//console.log('update expirationTime:' + (dt + (config.maxSessionTime * 1000)));
+						console.log('update expirationTime:' + (dt + (config.maxSessionTime * 1000)));
 					});
 					
 					callback(doc);
@@ -102,7 +111,7 @@ var checkSessionId = exports.checkSessionId = function(req, callback) {
 				    // асинхронно  удаляем сессию, не ожидая ответа бд
 				    // удаление по логину, это обеспечивает выход из системы во всех браузерах и открытых окнах
 				    Sessions.remove({'login': doc.login}, function() {
-					  // console.log("Remove session login: "+ doc.login + " Ok!");
+					   console.log("Remove session login: "+ doc.login + " Ok!");
 				    });
 					
 				    callback(null, 'The session has expired!', 1);	
@@ -120,26 +129,32 @@ var checkSessionId = exports.checkSessionId = function(req, callback) {
 	
 }; // end fun
 
-exports.check = function(req, res, callback) {
+exports.check = function(req, res, callback, sid) {
 	
     checkSessionId(req, function(doc, err_text, err_code) {
         if(doc !== null) {
 		   req.login = doc.login;
            callback(req, res);
         } else {
-			if(typeof res !== 'undefined' && typeof res.send !== 'undefined') {
+			if(!!res && !!res["send"]) {
                 res.send(JSON.stringify({
                     "status": "error",
                     "error_code": err_code,
                     "error_text": err_text
                 }));
-			} // end if
+			} else {
+				callback(req, {
+                    "status": "error",
+                    "error_code": err_code,
+                    "error_text": err_text
+                });
+			}// end if
         } // end if
-    });
+    }, sid);
 	
 }; // end fun
 
-exports.checkAdmin = function(req, res, callback) {
+exports.checkAdmin = function(req, res, callback, sid) {
 
     checkSessionId(req, function(doc, err_text, err_code) {
         if(doc !== null) {
@@ -163,7 +178,7 @@ exports.checkAdmin = function(req, res, callback) {
                 }));
 			} // end if
         } // end if
-    });
+    }, sid);
 }; // end fun
 
 exports.setSessionId = function(res, login, callback) {

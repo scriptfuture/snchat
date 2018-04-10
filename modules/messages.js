@@ -148,6 +148,30 @@ exports.add = function(req, res){
 
 }; // end fun
 
+exports.addItem = function(req, callback){ 
+
+	var form_text=req.text;
+	var form_login = req.login;
+
+	if(typeof form_text !== 'undefined' && typeof form_login !== 'undefined' && form_text.trim()!==''){	
+            
+        var gtime=(new Date).getTime();
+        
+        // чистим от тегов
+        form_text = phpf.strip_tags(form_text);
+		
+	    db.addMessage(gtime, form_text, form_login,  function(error){
+	        if(error) throw error;
+			 
+			callback(gtime, form_text, form_login);
+           
+	    }); 
+		  
+    } // end if
+
+
+}; // end fun
+
 exports.item = function(req, res){
 	
 	 var id = req.params.id;

@@ -118,9 +118,13 @@ var Reactions = (function(self, paramsReact) {
     //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 	// прокрутка вниз
     self._scrollBottom = function(messages) {
+        
+        if($("div[data-scroll]").length) {
 
-	    var elm = $("div[data-scroll]").get(0);		
-		elm.scrollTop=elm.scrollHeight;
+            var elm = $("div[data-scroll]").get(0);		
+            elm.scrollTop=elm.scrollHeight;
+        
+        } // end if
 
     }; // end fun
     //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
@@ -162,7 +166,7 @@ var Reactions = (function(self, paramsReact) {
                 // загружаем новые сообщения
                 // не используем use(), что бы не удалить IntervalId
                 Router._messages_new(params);
-            }, 5000);
+            }, 3000);
         
         } else {
             
