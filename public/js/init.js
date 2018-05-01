@@ -77,7 +77,7 @@
 			$.ajax({
                  type: "GET",
                  dataType: "json",
-                 url: self.baseUrl + "/locale/"+self.getLanguage()+".locale"
+                 url: self.baseUrl + "/lang/"+self.getLanguage()+".json"
             }).done(function(lang) {
                  self.lang = lang;
 				 

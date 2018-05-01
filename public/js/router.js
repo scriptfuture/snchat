@@ -71,12 +71,21 @@ var Router = (function(self, paramsReact) {
         // преобразуем хеш в вызов роута с параметрами
         self.hashToRoute();
         
-        window.addEventListener('popstate', function(e) {
+        var ev = 'popstate';
+        
+        // ie fix
+        if (window.onpopstate == undefined)  ev = 'hashchange';
+
+
+        window.addEventListener(ev, function(e) {
             
             // преобразуем хеш в вызов роута с параметрами
             self.hashToRoute();
           
         });
+        
+        
+
         
     };
 

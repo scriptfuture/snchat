@@ -78,9 +78,9 @@ exports.feed = function(req, res){
 }; // end fun
 
 exports.newList = function(req, res){
-	
+
 	 var dt = parseInt(req.params.dt, 10); // считать от даты
-	 var lim = parseInt(req.params.lim, 10);
+	 var lim = parseInt(req.params.lim, 10);     
 	 
 	 if(typeof lim !== 'undefined' && typeof dt !== 'undefined') {
 		 
@@ -95,6 +95,26 @@ exports.newList = function(req, res){
 	 } // end if
 
 }; // end fun
+
+exports.getNewList = function(dt, lim, callback){
+    
+	 dt = parseInt(dt, 10); // считать от даты
+	 lim = parseInt(lim, 10);
+	 
+	 if(typeof lim !== 'undefined' && typeof dt !== 'undefined') {
+		 
+		 if(lim >= config.max_lim && lim <= 0) { lim = config.def_lim; }
+	 
+	     // лента последних сообщений
+         db.newMessages(dt, lim, function(error, m_arr){
+             if(error) throw error;
+             callback(m_arr);
+
+          });
+	 } // end if
+
+}; // end fun
+
 
 exports.all = function(req, res){
 

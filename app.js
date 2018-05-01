@@ -22,6 +22,9 @@ var Users = require('./modules/users.js'); // модуль - Пользоват�
 var Messages = require('./modules/messages.js'); // модуль - Сообщения
 //--------------------------------------------------------
 
+// последня метка времени для обновления сообщения
+var timestampToUpdate = (new Date).getTime();
+
 
 app.use(bodyParser.json()); // for parsing application/json
 app.use(bodyParser.urlencoded({ extended: true })); // for parsing application/x-www-form-urlencoded
@@ -81,6 +84,31 @@ io.sockets.on('connection', function (socket) {
 			
 	// Посылаем всем остальным пользователям, что подключился новый клиент и его имя
 	socket.broadcast.json.send({'event': 'userJoined', 'ID': id, 'datetime': (new Date).getTime()});
+    
+    
+    // начать повторы с интервалом 2 сек
+    var timerId = setInterval(function() {
+        
+         Messages.getNewList(timestampToUpdate, config.max_lim, function(messages) {
+             
+             // рассылка новых сообщений
+             for(var i in messages) {
+                 
+                 console.log(messages[i]);
+                    
+                  // Отсылаем сообщение остальным участникам чата
+                  socket.broadcast.json.send({'event': 'messageReceived', 'login': messages[i].login, 'text': messages[i].text, 'datetime': messages[i].datetime});
+                  
+                                                   // обновляем метку времени
+                  timestampToUpdate = (new Date).getTime();
+                 
+             } // end for
+             
+
+             
+         }); 
+    
+    }, 3000);
 
 
 	
@@ -88,9 +116,8 @@ io.sockets.on('connection', function (socket) {
 	socket.on('message', function (msg) {
         
         var data = JSON.parse(decodeURIComponent(msg));
-        
-        console.log(data);
 
+        
 		access.check(data, null, function(req) { 
         
             console.log(JSON.stringify(req));
@@ -98,7 +125,10 @@ io.sockets.on('connection', function (socket) {
 			Messages.addItem(req, function(gtime, form_text, form_login) {
                 
 
-                console.log(JSON.stringify({'event': 'messageSent', 'login': form_login, 'text': form_text, 'datetime': gtime}));
+               // console.log(JSON.stringify({'event': 'messageSent', 'login': form_login, 'text': form_text, 'datetime': gtime}));
+               
+                // обновляем метку времени
+                timestampToUpdate = (new Date).getTime();
 				
 				// Уведомляем клиента, что его сообщение успешно дошло до сервера
 				socket.json.send({'event': 'messageSent', 'login': form_login, 'text': form_text, 'datetime': gtime});
