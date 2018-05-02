@@ -5,6 +5,10 @@ var mongoose = require('mongoose');
 
 var bodyParser = require('body-parser');
 
+var multer  = require('multer')
+var upload = multer({ dest: 'uploads/' })
+
+
 // Подключаем модуль и ставим на прослушивание 8080-порта - 80й обычно занят под http-сервер
 var io = require('socket.io').listen(8080); 
 

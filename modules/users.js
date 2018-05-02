@@ -1,5 +1,9 @@
 // загружаем модули дл€ работы с mongodb
 var mongoose = require('mongoose');
+var fs = require("fs");
+
+var multiparty = require('multiparty');
+
 
 //--------------------------------------------------------
 // ядро системы
@@ -14,6 +18,7 @@ exports.signup = function(req, res){
 
 	var login = req.body.login;
 	var password = req.body.password;
+
 	
 	if(typeof login !== 'undefined' && typeof password !== 'undefined' && login.trim() !== '' && password.trim() !== '') {
             
