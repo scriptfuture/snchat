@@ -5,9 +5,7 @@ var mongoose = require('mongoose');
 
 var bodyParser = require('body-parser');
 
-var multer  = require('multer')
-var upload = multer({ dest: 'uploads/' })
-
+const fileUpload = require('express-fileupload');
 
 // Подключаем модуль и ставим на прослушивание 8080-порта - 80й обычно занят под http-сервер
 var io = require('socket.io').listen(8080); 
@@ -32,6 +30,11 @@ var timestampToUpdate = (new Date).getTime();
 
 app.use(bodyParser.json()); // for parsing application/json
 app.use(bodyParser.urlencoded({ extended: true })); // for parsing application/x-www-form-urlencoded
+
+// default options
+app.use(fileUpload({
+  limits: { fileSize:  config.fileSize },
+}));
 
 
 db.connect(function(error){

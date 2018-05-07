@@ -220,10 +220,39 @@ var API = (function(self, FConfig) {
 				
 	}; // end fun
 	
-    self.signup = function(postString, callback) {
+    self.signup = function(form, callback) {
 		
 		self.ajaxSetup();
-		
+        
+        return $.ajax({
+            url: self.url + "/signup",
+			data: new FormData(form.self),
+			cache: false,
+			contentType: false,
+			processData: false,
+			method: 'POST',
+			type: 'POST' // For jQuery < 1.9
+        }).done(function(data_str) {
+            var data = JSON.parse(data_str);
+            
+            if (data.status === 'success') {
+                callback(data);
+            } else {
+                Reactions.use("error", {
+                   "error_text": data.error_text,
+                   "error_code": data.error_code,
+				   "time": 15000
+                });
+			} // end if
+            
+        }).fail(function(e) {
+			var errText = self.That.standartError(e.status, e.responseText);
+            Reactions.use("error", {
+                "error_text": errText
+            });
+        });
+        
+		/*
         return $.ajax({
             type: "POST",
             dataType: "json",
@@ -245,6 +274,11 @@ var API = (function(self, FConfig) {
                 "error_text": errText
             });
         });
+        */
+        
+        
+        
+        
     }; // end fun
 	
 	

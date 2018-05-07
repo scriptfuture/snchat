@@ -10,4 +10,6 @@ exports.config = {
 	sessionNameVar: "sid",
 	
 	SULogin: "admin",    // логин суперпользователя(админа)
+    
+    fileSize: 200 * 1000 // не больше  200 кб
 }

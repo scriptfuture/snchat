@@ -358,7 +358,7 @@ var Router = (function(self, paramsReact) {
 		   && params.postData.repassword.trim() !=='' 
 		   && params.postData.password === params.postData.repassword) {
 		
-			API.signup(params.postString, function(data){
+			API.signup(params, function(data){
 				
 				// сообщение об успешной регистрации
 				 Reactions.use("info", {"text": self.That.getTranslation("registrationSuccessful", "text"), "time": 5000});

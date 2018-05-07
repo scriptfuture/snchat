@@ -100,10 +100,16 @@ var Reactions = (function(self, paramsReact) {
 	    $("[data-form]").unbind('click'); // удаляем остальные события по клику
 	    $("[data-form]").on('click', function(){
 		    var lnk = $(this).data("form");
+            
+            var form = $("#"+lnk);
 			
-			if($("#"+lnk)) {
+			if(form) {
+                
+               // контекст формы
+               params.self = form.get(0);
+                
 			   // строка данных формы
-			   params.postString = $("#"+lnk).serialize();
+			   params.postString = form.serialize();
 			   
 			   // строку данных в объект
 			   params.postData = Helpers.URLToObject(params.postString);

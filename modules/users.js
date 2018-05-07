@@ -2,8 +2,7 @@
 var mongoose = require('mongoose');
 var fs = require("fs");
 
-var multiparty = require('multiparty');
-
+var fileUpload = require('express-fileupload');
 
 //--------------------------------------------------------
 // ядро системы
@@ -28,12 +27,55 @@ exports.signup = function(req, res){
 		    if(err) throw err;
 			
 			if(doc === null) {
-				
-	            db.addUser(gtime, login, password,  function(error){
-	                if(error) throw error;
-			 
-			        res.send(JSON.stringify({"status": "success"}));
-	            }); 
+                
+                    //--------------------------------------------------
+                    // upload file
+                    
+                    if (!req.files && !req.files.avatar) {
+                        
+                         // The name of the input field (i.e. "avatarFile") is used to retrieve the uploaded file
+                         var avatarFile = req.files.avatar;
+                        
+                         if(avatarFile.data.length === config.fileSize) {
+                              res.send(JSON.stringify({"status": "error", "error_code": 700, "error_text": "Maximum file size exceeded 200Kb."}));
+                              
+                         } else if(avatarFile.mimetype !== 'image/gif' && avatarFile.mimetype !== 'image/jpeg' && avatarFile.mimetype !== 'image/png'){
+                              res.send(JSON.stringify({"status": "error", "error_code": 700, "error_text": "Invalid file format."}));
+                              
+                         } else {
+                          
+                             var fileType = '.png';
+                             if(avatarFile.mimetype === 'image/gif') fileType = '.gif';
+                             if(avatarFile.mimetype === 'image/jpeg') fileType = '.jpeg'; 
+                             
+                              // Use the mv() method to place the file somewhere on your server
+                              avatarFile.mv(__dirname + '/files/'+avatarFile.md5 + fileType, function(err) {
+                                if (err)
+                                  return res.send(JSON.stringify({"status": "error", "error_code": 700, "error_text": "Error copying file."}));
+                             
+                               // res.send('/files/'+avatarFile.md5 + fileType);
+                               
+                                db.addUser(gtime, login, password,  function(error){
+                                    if(error) throw error;
+                                    
+                                    res.send(JSON.stringify({"status": "success"}));
+                                }); 
+                             
+                                console.log('File uploaded!');
+                              });
+                          
+                         } // end if
+                      
+                    } else {
+                        
+                        db.addUser(gtime, login, password,  function(error){
+                            if(error) throw error;
+                            
+                            res.send(JSON.stringify({"status": "success"}));
+                        }); 
+                        
+                    } // end if
+                    //--------------------------------------------------
 				
 			} else {
 				
